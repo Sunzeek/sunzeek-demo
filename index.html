@@ -1,1 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>SUNZEEK – Live Demo</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="https://cdn.jsdelivr.net/npm/ethers@5.7.2/dist/ethers.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.8.0/dist/umd/index.min.js"></script>
+
+<style>
+body{margin:0;font-family:Arial;background:#0b132b;color:#fff}
+header{background:#1c2541;padding:18px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-size:22px;font-weight:800;color:#ff4d4d}
+button{background:#ff4d4d;color:#fff;border:none;padding:10px 16px;
+border-radius:10px;font-weight:700;cursor:pointer}
+.section{text-align:center;padding:50px 20px}
+.box{max-width:400px;margin:20px auto;background:#1c2541;
+padding:24px;border-radius:18px}
+input{width:100%;padding:14px;border-radius:10px;border:none;margin:10px 0}
+.small{font-size:14px;color:#ffb703}
+.addr{font-size:13px;color:#adb5bd;word-break:break-all;margin-top:10px}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">SUNZEEK</div>
+  <button onclick="connectWallet()">Connect Wallet</button>
+</header>
+
+<div class="section">
+  <h1>SUNZEEK STAKING</h1>
+  <p>1% Daily Reward • 30 Days Lock</p>
+  <p class="small">⚠ Demo UI (Testnet Ready)</p>
+</div>
+
+<div class="box">
+  <h3>Stake Tokens</h3>
+  <input placeholder="Enter amount">
+  <button style="width:100%" onclick="demoStake()">Stake Now</button>
+  <p class="small">🔒 Locked for 30 days</p>
+  <div id="wallet" class="addr"></div>
+</div>
+
+<script>
+let provider, signer;
+
+async function connectWallet(){
+  if(window.ethereum){
+    provider = new ethers.providers.Web3Provider(window.ethereum);
+    await provider.send("eth_requestAccounts",[]);
+    signer = provider.getSigner();
+    document.getElementById("wallet").innerHTML =
+      "🦊 MetaMask Connected<br>" + await signer.getAddress();
+  } else {
+    const wc = new WalletConnectProvider.default({
+      rpc:{56:"https://bsc-dataseed.binance.org/"},
+      chainId:56
+    });
+    await wc.enable();
+    provider = new ethers.providers.Web3Provider(wc);
+    signer = provider.getSigner();
+    document.getElementById("wallet").innerHTML =
+      "📱 Trust Wallet Connected<br>" + await signer.getAddress();
+  }
+}
+
+function demoStake(){
+  alert("✅ Demo UI only\nReal staking testnet pe connected kiya ja sakta hai.");
+}
+</script>
+
+</body>
+</html>
 
